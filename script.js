@@ -1,4 +1,6 @@
 const RANDOM_WORDS_URL_API = 'https://jlpt-vocab-api.vercel.app/api/words/random';
+const typeDisplay = document.getElementById('typeDisplay');
+const furiganaDisplay = document.getElementById('furiganaDisplay');
 
 // 非同期でランダムな単語を取得する関数
 const GetRandomWord = async () => {
@@ -22,6 +24,8 @@ const RenderNextWord = async () => {
     const data = await GetRandomWord();
     if (data) {
         console.log(`Word: ${data.word}, Furigana: ${data.furigana}`);
+        typeDisplay.textContent = data.word;
+        furiganaDisplay.textContent = data.furigana;
     }
 }
 RenderNextWord();
