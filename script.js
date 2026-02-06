@@ -24,8 +24,23 @@ const RenderNextWord = async () => {
     const data = await GetRandomWord();
     if (data) {
         console.log(`Word: ${data.word}, Furigana: ${data.furigana}`);
-        typeDisplay.textContent = data.word;
-        furiganaDisplay.textContent = data.furigana;
+        typeDisplay.textContent = "";
+        furiganaDisplay.textContent = "";
+        // 文章を1文字ずつに分解して、spanタグを生成
+        const characters_word = data.word.split('');
+        const characters_furigana = data.furigana.split('');
+        characters_word.forEach((char, index) => {
+            const span_word = document.createElement('span');
+            span_word.textContent = char;
+            typeDisplay.appendChild(span_word);
+            span_word.classList.add('correct');
+        });        
+        characters_furigana.forEach((char, index) => {
+            const span_furigana = document.createElement('span');
+            span_furigana.textContent = char;
+            furiganaDisplay.appendChild(span_furigana);
+            span_furigana.classList.add('correct');
+        });
     }
 }
 RenderNextWord();
