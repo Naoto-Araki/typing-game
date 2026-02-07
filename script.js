@@ -44,6 +44,6 @@ const RenderNextWord = async () => {
         });
     }
     // 入力欄をクリア
-    typeInput.textContent = "";
+    typeInput.value = "";
 }
 RenderNextWord();
