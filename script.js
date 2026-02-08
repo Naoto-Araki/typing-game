@@ -2,6 +2,7 @@ const RANDOM_WORDS_URL_API = 'https://jlpt-vocab-api.vercel.app/api/words/random
 const typeDisplay = document.getElementById('typeDisplay');
 const furiganaDisplay = document.getElementById('furiganaDisplay');
 const typeInput = document.getElementById('typeInput');
+const timer = document.getElementById('timer');
 
 typeInput.addEventListener('input', () => {
     const charactersArray = typeDisplay.querySelectorAll('span');
@@ -61,5 +62,31 @@ const RenderNextWord = async () => {
     }
     // 入力欄をクリア
     typeInput.value = "";
+
+    StartTimer();
 }
+
+// カウントダウンを表示
+let originalTime = 20;
+const StartTimer = () => {
+    timer.textContent = originalTime;
+    startTime  = Date.now();
+    setInterval(() => {
+        timer.innerText = originalTime - getTimer();
+        if (timer.innerText <= 0) {
+            TimeUp();
+        }
+    }, 1000);
+}
+
+// 経過時間を取得
+const getTimer = () => {
+    return Math.floor((Date.now() - startTime) / 1000);
+}
+
+// 時間切れ時の処理
+const TimeUp = () => {
+    RenderNextWord();
+}
+
 RenderNextWord();
