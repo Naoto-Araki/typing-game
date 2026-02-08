@@ -3,6 +3,24 @@ const typeDisplay = document.getElementById('typeDisplay');
 const furiganaDisplay = document.getElementById('furiganaDisplay');
 const typeInput = document.getElementById('typeInput');
 
+typeInput.addEventListener('input', () => {
+    const charactersArray = typeDisplay.querySelectorAll('span');
+    const arrayValue = typeInput.value.split('');
+    charactersArray.forEach((charSpan, index) => {
+        if (arrayValue[index] == null) {
+            charSpan.classList.remove('correct');
+            charSpan.classList.remove('incorrect');
+        }
+        else if (charSpan.innerText === arrayValue[index]) {
+            charSpan.classList.add('correct');
+            charSpan.classList.remove('incorrect');
+        } else {
+            charSpan.classList.remove('correct');
+            charSpan.classList.add('incorrect');
+        }
+    });
+});
+
 // 非同期でランダムな単語を取得する関数
 const GetRandomWord = async () => {
     try {
@@ -34,13 +52,11 @@ const RenderNextWord = async () => {
             const span_word = document.createElement('span');
             span_word.textContent = char;
             typeDisplay.appendChild(span_word);
-            span_word.classList.add('correct');
         });        
         characters_furigana.forEach((char, index) => {
             const span_furigana = document.createElement('span');
             span_furigana.textContent = char;
             furiganaDisplay.appendChild(span_furigana);
-            span_furigana.classList.add('correct');
         });
     }
     // 入力欄をクリア
