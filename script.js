@@ -3,14 +3,22 @@ const typeDisplay = document.getElementById('typeDisplay');
 const furiganaDisplay = document.getElementById('furiganaDisplay');
 const typeInput = document.getElementById('typeInput');
 const timer = document.getElementById('timer');
+const typeSound = new Audio('./audio/typing-sound.mp3');
+const wrongSound = new Audio('./audio/wrong.mp3');
+const correctSound = new Audio('./audio/correct.mp3');
 
 typeInput.addEventListener('input', () => {
+    let isCorrect = true;
+    // キー入力音を再生
+    typeSound.play();
+    typeSound.currentTime = 0;
     const charactersArray = typeDisplay.querySelectorAll('span');
     const arrayValue = typeInput.value.split('');
     charactersArray.forEach((charSpan, index) => {
         if (arrayValue[index] == null) {
             charSpan.classList.remove('correct');
             charSpan.classList.remove('incorrect');
+            isCorrect = false;
         }
         else if (charSpan.innerText === arrayValue[index]) {
             charSpan.classList.add('correct');
@@ -18,8 +26,17 @@ typeInput.addEventListener('input', () => {
         } else {
             charSpan.classList.remove('correct');
             charSpan.classList.add('incorrect');
+            wrongSound.play();
+            wrongSound.currentTime = 0;
+            isCorrect = false;
         }
     });
+    // すべて正解した場合、次の単語を表示
+    if (isCorrect) {
+        correctSound.play();
+        correctSound.currentTime = 0;
+        RenderNextWord();
+    }
 });
 
 // 非同期でランダムな単語を取得する関数
