@@ -1,6 +1,5 @@
-const RANDOM_WORDS_URL_API = 'https://jlpt-vocab-api.vercel.app/api/words/random';
+const RANDOM_WORDS_URL_API = 'https://zenquotes.io/api/random';
 const typeDisplay = document.getElementById('typeDisplay');
-const furiganaDisplay = document.getElementById('furiganaDisplay');
 const typeInput = document.getElementById('typeInput');
 const timer = document.getElementById('timer');
 const typeSound = new Audio('./audio/typing-sound.mp3');
@@ -44,11 +43,9 @@ const GetRandomWord = async () => {
     try {
         const response = await fetch(RANDOM_WORDS_URL_API);
         const data = await response.json();
-        // console.log(data.word);
-        // console.log(data.furigana);
+        // console.log(data[0].q);
         return {
-            word: data.word,
-            furigana: data.furigana
+            sentence: data[0].q
         };
     } catch (error) {
         console.error('Error fetching random word:', error);
@@ -60,21 +57,14 @@ const GetRandomWord = async () => {
 const RenderNextWord = async () => {
     const data = await GetRandomWord();
     if (data) {
-        console.log(`Word: ${data.word}, Furigana: ${data.furigana}`);
+        console.log(`Sentence: ${data.sentence}`);
         typeDisplay.textContent = "";
-        furiganaDisplay.textContent = "";
         // 文章を1文字ずつに分解して、spanタグを生成
-        const characters_word = data.word.split('');
-        const characters_furigana = data.furigana.split('');
-        characters_word.forEach((char, index) => {
-            const span_word = document.createElement('span');
-            span_word.textContent = char;
-            typeDisplay.appendChild(span_word);
-        });
-        characters_furigana.forEach((char, index) => {
-            const span_furigana = document.createElement('span');
-            span_furigana.textContent = char;
-            furiganaDisplay.appendChild(span_furigana);
+        const characters = data.sentence.split('');
+        characters.forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            typeDisplay.appendChild(span);
         });
     }
     // 入力欄をクリア
