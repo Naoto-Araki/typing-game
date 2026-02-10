@@ -1,4 +1,4 @@
-const RANDOM_WORDS_URL_API = 'https://zenquotes.io/api/random';
+const RANDOM_WORDS_URL_API = 'https://api.quotable.io/random';
 const typeDisplay = document.getElementById('typeDisplay');
 const typeInput = document.getElementById('typeInput');
 const timer = document.getElementById('timer');
@@ -40,17 +40,31 @@ typeInput.addEventListener('input', () => {
 
 // 非同期でランダムな単語を取得する関数
 const GetRandomWord = async () => {
+    // ダミーデータ（システム日付の問題が解決したら、API呼び出しに戻してください）
+    const dummyQuotes = [
+        "The only way to do great work is to love what you do.",
+        "Innovation distinguishes between a leader and a follower.",
+        "Life is what happens when you're busy making other plans.",
+        "The future belongs to those who believe in the beauty of their dreams.",
+        "Success is not final, failure is not fatal: it is the courage to continue that counts."
+    ];
+    const randomQuote = dummyQuotes[Math.floor(Math.random() * dummyQuotes.length)];
+    return {
+        sentence: randomQuote
+    };
+    
+    /* API呼び出しバージョン（システム日付を修正後に使用）
     try {
         const response = await fetch(RANDOM_WORDS_URL_API);
         const data = await response.json();
-        // console.log(data[0].q);
         return {
-            sentence: data[0].q
+            sentence: data.content
         };
     } catch (error) {
         console.error('Error fetching random word:', error);
         return null;
     }
+    */
 }
 
 // ランダムな文章を取得して表示する関数
