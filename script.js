@@ -70,7 +70,7 @@ const RenderNextWord = async () => {
             const span_word = document.createElement('span');
             span_word.textContent = char;
             typeDisplay.appendChild(span_word);
-        });        
+        });
         characters_furigana.forEach((char, index) => {
             const span_furigana = document.createElement('span');
             span_furigana.textContent = char;
